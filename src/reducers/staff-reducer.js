@@ -1,18 +1,25 @@
 import {createSlice} from "@reduxjs/toolkit";
-import {getStaffByIdThunk} from "../services/staff-thunk";
+import {getStaffByIdThunk, loginStaffThunk} from "../services/staff-thunk";
 
 const staffSlice = createSlice({
     name: 'staff',
     initialState: {
-        staffId: ''
+        currentStaff: ''
     },
     reducers: {},
     extraReducers: {
-        [getStaffByIdThunk.fulfilled] :(state, action)=>{
-            state.staffId = action.payload
+        [getStaffByIdThunk.fulfilled]: (state, action) => {
+            state.currentStaff = action.payload
+            state.loading = false
+        },
+        [loginStaffThunk.fulfilled]: (state, action) => {
+            state.currentStaff = action.payload
+            // state.currentStaff = {...state.currentStaff, staffId: action.payload}
+            console.log("thunk", state.currentStaff)
             state.loading = false
         }
     }
+
 })
 
 export default staffSlice.reducer

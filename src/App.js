@@ -1,5 +1,6 @@
 import './App.css';
-import {BrowserRouter, Routes, Route} from "react-router-dom";
+import {BrowserRouter,Routes, Route}from "react-router-dom";
+
 import HomePage from "./components/HomePage";
 import CustomerLogin from "./components/customer/CustomerLogin";
 import CustomerRegistration from "./components/customer/CustomerRegistration";
@@ -9,6 +10,8 @@ import StaffHome from "./components/staff/StaffHome";
 import {Provider} from "react-redux";
 import {configureStore} from "@reduxjs/toolkit";
 import staffReducer from "./reducers/staff-reducer";
+import StaffFood from "./components/staff/StaffFood";
+import StaffRoom from "./components/staff/StaffRoom";
 
 
 const store = configureStore({
@@ -29,6 +32,8 @@ function App() {
                         <Route path="/customer/home" element={< CustomerHome/>}/>
                         <Route path="/staff/login" element={< StaffLogin/>}/>
                         <Route path="/staff/home" element={< StaffHome/>}/>
+                        <Route path="/staff/food" element={< StaffFood/>}/>
+                        <Route path="/staff/room" element={< StaffRoom/>}/>
                     </Routes>
                 </BrowserRouter>
             </Provider>

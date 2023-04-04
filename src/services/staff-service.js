@@ -15,3 +15,9 @@ export const getStaffById = async (staffId) => {
     const response = await api.get(`${API_BASE}/staff/${staffId}`);
     return response.data;
 }
+
+export const loginStaff = async (staff) =>{
+    const response = await api.post(`${API_BASE}/staff/login`, staff);
+    console.log(response.data)
+    return response.data
+}

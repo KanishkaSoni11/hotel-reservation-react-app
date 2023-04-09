@@ -20,7 +20,7 @@ export const loginCustomer = async (customer) =>{
 }
 
 export const registerCustomer = async (customer) => {
-    console.log("Sending api regquest")
+    console.log("Sending api request")
     const response = await api.post(`${CUSTOMER_API}/register`, customer)
     console.log(response.data);
     return response.data;

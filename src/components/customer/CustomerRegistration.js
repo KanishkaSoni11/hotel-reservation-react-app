@@ -4,22 +4,8 @@ import {useState} from "react";
 import {useDispatch} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import {registerCustomerThunk} from "../../services/customer-thunk";
-import {Toast} from "react-bootstrap";
 
 const CustomerRegistration = () => {
-    const defaultCustomerDetail = {
-        customerID : '',
-        password: '',
-        firstName: '',
-        lastName: '',
-        street: '',
-        state: '',
-        zipCode:'',
-        emailId: '',
-        contactNumber: '',
-        identificationNumber: ''
-    };
-    const [customer, setCustomerDetail] = useState(defaultCustomerDetail);
 
     const [customerId, setCustomerId] = useState(0);
     const [password, setPassword] = useState('');
@@ -48,10 +34,8 @@ const CustomerRegistration = () => {
     }
 
     const handleFieldOnChange = (fieldName, targetValue) => {
-        console.log("Updating customer with ", fieldName, targetValue);
-
         switch (fieldName) {
-            case 'email':
+            case 'emailId':
                 setEmailId(targetValue);
                 break;
             case 'password':

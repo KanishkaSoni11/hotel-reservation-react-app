@@ -18,3 +18,10 @@ export const loginCustomer = async (customer) =>{
     console.log(response.data)
     return response.data
 }
+
+export const registerCustomer = async (customer) => {
+    console.log("Sending api regquest")
+    const response = await api.post(`${CUSTOMER_API}/register`, customer)
+    console.log(response.data);
+    return response.data;
+}

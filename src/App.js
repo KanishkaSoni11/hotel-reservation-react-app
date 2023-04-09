@@ -10,13 +10,15 @@ import StaffHome from "./components/staff/StaffHome";
 import {Provider} from "react-redux";
 import {configureStore} from "@reduxjs/toolkit";
 import staffReducer from "./reducers/staff-reducer";
+import customerReducer from "./reducers/customer-reducer"
 import StaffFood from "./components/staff/StaffFood";
 import StaffRoom from "./components/staff/StaffRoom";
 
 
 const store = configureStore({
     reducer: {
-        staffData: staffReducer
+        staffData: staffReducer,
+        customerData: customerReducer
     }
 });
 

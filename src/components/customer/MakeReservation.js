@@ -1,15 +1,18 @@
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import {useState} from "react";
+import {makeReservationThunk} from "../../services/customer-thunk";
+import {useNavigate} from "react-router-dom";
 
 const MakeReservation = () => {
     const {currentCustomer} = useSelector(state => state.customerData);
     const [fromDate, setFromDate] = useState('');
     const [toDate, setToDate] = useState('');
     const [numRooms, setNumRooms] = useState(0);
+    const [roomType, setRoomType] = useState("KING");
 
-    const [isReservationPossible, setIsReservationPossible] = useState(false);
+    const [isReservationPlace, setIsReservationPlaced] = useState(false);
 
     const handleOnChange = (field, value) => {
         switch (field) {
@@ -20,16 +23,25 @@ const MakeReservation = () => {
                 setToDate(value);
                 break;
             case 'numRooms':
-                setNumRooms(value);
+                setNumRooms(+value);
                 break;
             default:
                 break;
         }
     }
 
-    const handleIsReservationPossibleClick  = () => {
+    const dispatch = useDispatch();
+
+    const handlePlaceReservation  = async () => {
         console.log("Checking if reservation is possible or not");
-        const reservationDetails = {fromDate, toDate, numRooms};
+        const reservationDetails = {currentCustomer, fromDate, toDate, numRooms, roomType};
+        const reservation = await dispatch(makeReservationThunk(reservationDetails));
+        console.log(reservation)
+        if (reservation.payload === 1) {
+           alert("Congratulations! Your reservation has been placed!")
+        } else {
+            alert("Reservation Not Possible");
+        }
     }
 
     return(
@@ -43,7 +55,7 @@ const MakeReservation = () => {
             <Form.Control type="number" placeholder="Number of Rooms" onChange={(event) => {
                 handleOnChange('numRooms', event.target.value);
             }}/>
-            <Button variant="primary" onClick={handleIsReservationPossibleClick}>Make Reservation</Button>
+            <Button variant="primary" onClick={handlePlaceReservation}>Make Reservation</Button>
         </div>
     );
 }

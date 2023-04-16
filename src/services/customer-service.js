@@ -25,3 +25,10 @@ export const registerCustomer = async (customer) => {
     console.log(response.data);
     return response.data;
 }
+
+export const makeReservation = async (reservationDetails) => {
+    console.log("Sending API requeset to check if reservation is possisble");
+    const response = await api.post(`${CUSTOMER_API}/reserve`, reservationDetails)
+    console.log(response.data)
+    return response.data
+}

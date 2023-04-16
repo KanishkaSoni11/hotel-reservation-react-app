@@ -2,13 +2,15 @@ import {createSlice} from "@reduxjs/toolkit";
 import {
     getCustomerByEmailThunk,
     loginCustomerThunk,
+    makeReservationThunk,
     registerCustomerThunk
 } from "../services/customer-thunk";
 
 const customerSlice = createSlice({
    name: 'customer',
    initialState: {
-       currentCustomer: {}
+       currentCustomer: {},
+       reservationDeatils: {}
    },
    reducers: {},
    extraReducers: {
@@ -26,6 +28,12 @@ const customerSlice = createSlice({
            state.currentCustomer = action.payload
            console.log(state)
            console.log("thunk", state.currentCustomer)
+           state.loading = false
+       },
+       [makeReservationThunk.fulfilled]: (state, action) => {
+           console.log(action);
+           state.reservationDetails = action.payload
+           console.log(state)
            state.loading = false
        }
    }

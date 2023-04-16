@@ -1,13 +1,12 @@
-import {Button} from "@mui/material";
 import {Link} from "react-router-dom";
-import {useNavigate} from "react-router-dom";
+import Button from 'react-bootstrap/Button';
 
 const HomePage = () => {
     return (
-        <div className="container">
-            <Link to="/staff/login"><Button variant="contained">Staff Login</Button></Link>
-            <Link to="/customer/login"><Button variant="contained">Guest Login</Button></Link>
-            <Link to="/customer/register"><Button variant="contained">Guest Registration</Button></Link>
+        <div className="container d-grid gap-2 align-content-center">
+            <Link to="/staff/login"><Button>Staff Login</Button></Link>
+            <Link to="/customer/login"><Button>Guest Login</Button></Link>
+            <Link to="/customer/register"><Button >Guest Registration</Button></Link>
         </div>
     );
 }

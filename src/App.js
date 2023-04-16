@@ -12,6 +12,7 @@ import {configureStore} from "@reduxjs/toolkit";
 import staffReducer from "./reducers/staff-reducer";
 import StaffFood from "./components/staff/StaffFood";
 import StaffRoom from "./components/staff/StaffRoom";
+import roomReducer from "./reducers/room-reducer";
 
 
 const store = configureStore({

@@ -21,3 +21,8 @@ export const loginStaff = async (staff) =>{
     console.log(response.data)
     return response.data
 }
+
+export const roomsUnassigned = async () => {
+    const response = await api.get(`${API_BASE}/api/reservation/roomsunassigned`);
+    return response.data
+}

@@ -1,6 +1,8 @@
 import {useEffect, useState} from "react";
 import {getPendingOrders, updateCompletedOrders} from "../../services/food-service";
 import {useSelector} from "react-redux";
+import Table from "react-bootstrap/Table";
+import Button from "react-bootstrap/Button";
 
 const StaffFood = () => {
 
@@ -22,19 +24,36 @@ const StaffFood = () => {
     const RenderData = (room, data) => {
         let orderId = data[0].orderId
         return (<>
-            <h1> {room}</h1>
+            <h3>Orders for Room {room}</h3>
+            <Table striped bordered hover>
+                <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Item Name</th>
+                    <th>Quantity</th>
+                </tr>
+                </thead>
+                <tbody>
             {
                 data.map((items) => (
                     <>
-                        <div>{items.foodItem}</div>
-                        <div>{items.quantity}</div>
+                        <tr>
+                            <td>{items.orderId}</td>
+                            <td>{items.foodItem}</td>
+                            <td>{items.quantity}</td>
+                        </tr>
                     </>
 
                 ))
             }
-            <button onClick={() => handleStatusCompleted(orderId)}>
+                </tbody>
+            </Table>
+            <br/>
+            <Button variant="success" onClick={() => handleStatusCompleted(orderId)}>
                 Mark as completed
-            </button>
+            </Button>
+            <br/>
+
         </>)
     }
 

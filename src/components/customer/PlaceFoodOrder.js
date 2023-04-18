@@ -1,0 +1,149 @@
+import Button from "react-bootstrap/Button";
+import Modal from 'react-bootstrap/Modal';
+import {useState} from "react";
+import {getAllFoodItems, getRoomsForReservation, placeFoodOrder} from "../../services/food-service";
+import {useSelector} from "react-redux";
+
+const PlaceFoodOrder = () => {
+
+    const {currentCustomer, reservationDetails} = useSelector(state => state.customerData);
+    const [orderList, setOrderList] = useState([{ itemId: ""}]);
+    const [foodItems, setFoodItems] = useState([{itemId: -1, itemName: 'Select a Food Item', itemDescription: '', itemAvailable: 1, cost: 0}]);
+    const [roomNums, setRoomNums] = useState([]);
+    const [selectedRoom, setSelectedRoom] = useState(0);
+
+    const handleFoodSelectionChange = (e, index) => {
+        console.log("On dropdown change");
+        const { value } = e.target;
+        const list = [...orderList];
+        list[index]["itemId"] = value;
+        console.log(value)
+        setOrderList(list);
+        console.log(orderList);
+    };
+
+    const handleRoomNumSelect = (e) => {
+        const {value} = e.target;
+        setSelectedRoom(value);
+    }
+
+
+    const placeOrder = async () => {
+        const finalOrder = {};
+        var flag = false;
+        console.log(orderList);
+        orderList.forEach(item => {
+            console.log(item.key + " --> " + item.itemId);
+            if (item.itemId == undefined) {
+                flag = true;
+            }
+            if (finalOrder[item.itemId] !== undefined) {
+                finalOrder[item.itemId]++;
+            } else {
+                finalOrder[item.itemId] = 1;
+            }
+        })
+        if (flag) {
+            alert ("Please select an appropriate value for the food item");
+        } else {
+            console.log(finalOrder);
+            const orderDetails = {
+                "customer": currentCustomer,
+                "reservation": reservationDetails,
+                "orderDetailsMap": finalOrder,
+                "roomNumber": selectedRoom
+            };
+            console.log(orderDetails);
+            const orderPlaced = await placeFoodOrder(orderDetails);
+            if (orderPlaced.orderId === undefined) {
+                alert("Unable to place your order")
+            } else {
+                alert("Your Order has been placed with ID " + orderPlaced.orderId);
+            }
+            handleClose();
+        }
+    }
+
+    const handleFoodItemRemove = (index) => {
+        const list = [...orderList];
+        list.splice(index, 1);
+        setOrderList(list);
+    };
+
+    const handleServiceAdd = () => {
+        setOrderList([...orderList, { itemId: "-1"}]);
+    };
+
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => {
+        setShow(false)
+    };
+
+    const handleShow = async () => {
+        if (reservationDetails.reservationNumber === undefined) {
+            alert("Please reserve a room and then you can place a food order");
+        } else {
+            console.log("Getting room details")
+            const roomDetails = await getRoomsForReservation(reservationDetails.reservationNumber);
+            if (roomDetails === undefined) {
+                alert("You have not been assigned rooms yet. Please wait till the rooms are assinged");
+            } else {
+                console.log(roomDetails);
+                setRoomNums(roomDetails.data);
+                console.log("Getting food items");
+                const allData = await getAllFoodItems();
+                setFoodItems(allData.data);
+                console.log(foodItems);
+                setShow(true)
+            }
+        }
+    };
+
+    return (
+        <div className="d-block">
+            <Button variant="warning" onClick={handleShow}>Place Food Order</Button>
+            <Button variant="danger">Checkout</Button>
+            <Modal show={show} onHide={handleClose} animation={false}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Food Order</Modal.Title>
+                    <select onChange={(e) => handleRoomNumSelect(e)}>
+                        <option value="-1"> - Select your room number -</option>
+                        {roomNums?.map((item) => {
+                            return (
+                                <option value={item.roomNumber}> {item.roomNumber}</option>
+                            )
+                        })}
+                    </select>
+                </Modal.Header>
+                <Modal.Body>
+                    {orderList?.map((singleOrder, index) => (
+                        <div className="d-block">
+                            <select onChange={(e) => handleFoodSelectionChange(e, index)}>
+                                <option value="-1"> - Select Food Item -</option>
+                                {foodItems?.map((item) => {
+                                    return (
+                                            <option value={item.itemId}> {item.itemName} - {item.itemDescription}</option>
+                                    )
+                                })}
+                            </select>
+                            {orderList.length > 1 ? <Button variant="outline-danger" onClick={() => handleFoodItemRemove(index)}>Remove Item</Button> : null}
+                        </div>
+                    ))}
+                    {orderList.length <= 10 ? <Button variant="outline-success" onClick={handleServiceAdd}>Add Item</Button> : null}
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="success" onClick={placeOrder}>
+                        Submit Order
+                    </Button>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Close
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+        </div>
+
+    );
+}
+
+export default PlaceFoodOrder;

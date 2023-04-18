@@ -32,3 +32,10 @@ export const makeReservation = async (reservationDetails) => {
     console.log(response.data)
     return response.data
 }
+
+export const getReservationFromCustomerId = async(customerId) => {
+    console.log("Sending API requeset to check if reservation is possisble");
+    const response = await api.get(`${API_BASE}/api/reservation/${customerId}`)
+    console.log(response.data)
+    return response.data
+}

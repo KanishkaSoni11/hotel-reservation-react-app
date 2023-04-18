@@ -1,10 +1,12 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {
     getCustomerByEmail,
+    getReservationFromCustomerId,
     loginCustomer,
     makeReservation,
     registerCustomer
 } from "./customer-service";
+import {placeFoodOrder} from "./food-service";
 
 export const getCustomerByEmailThunk = createAsyncThunk(
     'getStaffById',
@@ -24,4 +26,9 @@ export const registerCustomerThunk = createAsyncThunk(
 export const makeReservationThunk = createAsyncThunk(
     'makeReservation',
     async(reservationDetails) => await makeReservation(reservationDetails)
+)
+
+export const getReservationFromCustomerIdThunk = createAsyncThunk(
+    'getReservationFromCustomerId',
+    async(customerId) => await getReservationFromCustomerId(customerId)
 )

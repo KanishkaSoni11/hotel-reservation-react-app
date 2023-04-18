@@ -4,7 +4,7 @@ import Button from "react-bootstrap/Button";
 import {useState} from "react";
 import {makeReservationThunk} from "../../services/customer-thunk";
 
-const MakeReservation = () => {
+const MakeReservation = ({isActive}) => {
     const {currentCustomer, currentReservation} = useSelector(state => state.customerData);
 
     const [fromDate, setFromDate] = useState('');
@@ -15,7 +15,7 @@ const MakeReservation = () => {
 
     const [isReservationPlace, setIsReservationPlaced] = useState(true);
 
-
+    console.log("Make reservation is " + isActive);
     const handleOnChange = (field, value) => {
         switch (field) {
             case 'fromDate':
@@ -52,20 +52,38 @@ const MakeReservation = () => {
 
     return(
         <div className="container">
-            <div className="d-block">
-                <Form.Control type="date" placeholder="Check In Date" onChange={(event) => {
-                    handleOnChange('fromDate', event.target.value);
-                }}/>
-                <Form.Control type="date" placeholder="Check Out Date" onChange={(event) => {
-                    handleOnChange('toDate', event.target.value);
-                }}/>
-                <Form.Control type="number" placeholder="Number of Rooms" onChange={(event) => {
-                    handleOnChange('numRooms', event.target.value);
-                }}/>
-                <Form.Control type="number" placeholder="Number of Guests" onChange={(event) => {
-                    handleOnChange('numGuests', event.target.value);
-                }}/>
-                <Button variant="primary" active={isReservationPlace} onClick={handlePlaceReservation}>Make Reservation</Button>
+            <div>
+                <div className="d-flex">
+                    <div className="d-block mx-4">
+                        <Form.Label className="m-2">Check-in Date</Form.Label>
+                        <Form.Control className="m-2" type="date" placeholder="Check In Date" onChange={(event) => {
+                            handleOnChange('fromDate', event.target.value);
+                        }}/>
+                    </div>
+                    <div className="d-block mx-4">
+                        <Form.Label className="m-2">Check-Out Date</Form.Label>
+                        <Form.Control className="m-2" type="date" placeholder="Check Out Date" onChange={(event) => {
+                            handleOnChange('toDate', event.target.value);
+                        }}/>
+                    </div>
+                    <div className="d-block mx-4">
+                        <Form.Label className="m-2">Number Of Rooms</Form.Label>
+                        <Form.Control className="m-2" type="number" placeholder="Number of Rooms" onChange={(event) => {
+                            handleOnChange('numRooms', event.target.value);
+                        }}/>
+                    </div>
+                    <div className="d-block mx-4">
+                        <Form.Label className="m-2">Number Of Guests</Form.Label>
+                        <Form.Control className="m-2" type="number" placeholder="Number of Guests" onChange={(event) => {
+                            handleOnChange('numGuests', event.target.value);
+                        }}/>
+                    </div>
+                    <div className="d-block mx-4">
+                        <Form.Label className="m-2"></Form.Label>
+                        {isActive ? <Button className="m-2" disabled variant="primary" onClick={handlePlaceReservation}>Search</Button> :
+                         <Button className="m-2" variant="primary" onClick={handlePlaceReservation}>Search</Button> }
+                    </div>
+                </div>
             </div>
         </div>
 

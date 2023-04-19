@@ -36,3 +36,10 @@ export const placeFoodOrder = async (orderDetails) => {
     console.log(response);
     return response.data;
 }
+
+export const getOrderHistoryForCustomer = async (customerId) => {
+    console.log("Fetching order history for Customer ", customerId);
+    const response = await api.get(`${FOOD_API}/orderHistory/${customerId}`);
+    console.log(response);
+    return response.data;
+}

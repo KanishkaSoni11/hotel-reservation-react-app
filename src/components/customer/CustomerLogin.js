@@ -1,5 +1,9 @@
 import {useState} from "react";
-import {getReservationFromCustomerIdThunk, loginCustomerThunk} from "../../services/customer-thunk";
+import {
+    getOrderHistoryFromCustomerIdThunk,
+    getReservationFromCustomerIdThunk,
+    loginCustomerThunk
+} from "../../services/customer-thunk";
 import {useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import Form from "react-bootstrap/Form";
@@ -20,6 +24,7 @@ const CustomerLogin = () => {
         console.log(loginCustomer)
         if (loginCustomer.payload.customerID !== undefined) {
             const customerReservations = await dispatch(getReservationFromCustomerIdThunk(loginCustomer.payload.customerID));
+            const customerOrders = await dispatch(getOrderHistoryFromCustomerIdThunk(loginCustomer.payload.customerID));
             navigate('/customer/home');
         } else {
             alert("Invalid email or password. Please retry");

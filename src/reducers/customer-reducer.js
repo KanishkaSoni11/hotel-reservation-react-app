@@ -3,14 +3,16 @@ import {
     getCustomerByEmailThunk, getReservationFromCustomerIdThunk,
     loginCustomerThunk,
     makeReservationThunk,
-    registerCustomerThunk
+    registerCustomerThunk,
+    getOrderHistoryFromCustomerIdThunk
 } from "../services/customer-thunk";
 
 const customerSlice = createSlice({
    name: 'customer',
    initialState: {
        currentCustomer: {},
-       reservationDetails: {}
+       reservationDetails: {},
+       orderList: []
    },
    reducers: {},
    extraReducers: {
@@ -39,6 +41,13 @@ const customerSlice = createSlice({
        [getReservationFromCustomerIdThunk.fulfilled]: (state, action) => {
            console.log(action);
            state.reservationDetails = action.payload
+           console.log(state)
+           state.loading = false
+       },
+       [getOrderHistoryFromCustomerIdThunk.fulfilled]: (state, action) => {
+           console.log("Getting order list in thunk");
+           console.log(action);
+           state.orderList = action.payload
            console.log(state)
            state.loading = false
        }

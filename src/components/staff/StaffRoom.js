@@ -14,12 +14,18 @@ const StaffRoom = () => {
 
     const dispatch = useDispatch();
     const {currentStaff} = useSelector(state => state.staffData);
+    const[roomList, setRoomList] = useState([]);
     const {roomsUnassigned} = useSelector(state => state.staffData);
     const [availableRoomList, setAvailableRoomList] = useState([]);
     const [roomNumber, setSelectedRoom] = useState();
 
     useEffect(() => {
-        dispatch(roomsUnassignedThunk());
+        const fetchData  = async () => {
+            const res = await dispatch(roomsUnassignedThunk());
+            setRoomList(res.payload);
+        }
+        fetchData()
+        console.log("roomList",roomList)
 
     }, [])
 
@@ -29,7 +35,7 @@ const StaffRoom = () => {
         setAvailableRoomList(res);
     }
 
-    const handleSelectedRoom = async (reservationNumber) => {
+    const handleSelectedRoom = async (reservationNumber, index) => {
         console.log("here")
         const staffId = currentStaff.staffId
         console.log("id", staffId)
@@ -39,7 +45,13 @@ const StaffRoom = () => {
         const post = await assignRoom(res);
         console.log("Post", post);
         if (post.reservationNumber !== undefined) {
-            alert("Room assigned");
+            alert("Room assigned", index);
+            const newList = await dispatch(roomsUnassignedThunk());
+            console.log("new" ,newList.payload);
+            setRoomList(newList.payload);
+            setAvailableRoomList([]);
+
+
         } else {
             alert("Error while assigning room");
         }
@@ -66,7 +78,7 @@ const StaffRoom = () => {
                 </tr>
                 </thead>
                 <tbody>
-                {roomsUnassigned.length > 0 ? roomsUnassigned?.map((room) => (
+                {roomList.length > 0 ? roomList?.map((room,index) => (
                     <>
                         <tr>
                             <td>{room.firstName}</td>
@@ -90,7 +102,9 @@ const StaffRoom = () => {
                                 </Form.Select>
                             </td>
                             <td>
-                                <Button variant="success" onClick={() => handleSelectedRoom(room.reservationNumber)}>
+                                <Button variant="success" onClick={() => {
+
+                                    handleSelectedRoom(room.reservationNumber, index)}}>
                                     Assign
                                 </Button>
                             </td>

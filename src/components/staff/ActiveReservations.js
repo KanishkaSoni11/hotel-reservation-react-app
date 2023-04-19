@@ -33,8 +33,8 @@ const ActiveReservations = () => {
 
     return (
 
-        <div className="container">
-            <h2>Unassigned Reservations</h2>
+        <div className="container p-2 m-2">
+            <h2>Active Reservations</h2>
             <br/>
             <Table striped bordered hover>
                 <thead>

@@ -1,14 +1,14 @@
-import {Button, TextField} from "@mui/material";
 import {useState} from "react";
 import {useDispatch} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import {getStaffByIdThunk, loginStaffThunk} from "../../services/staff-thunk";
+import "./index.css"
 
 
 const StaffLogin = () => {
 
     const [staffId, setStaffId] = useState('');
-    const[password, setPassword ] = useState('');
+    const [password, setPassword] = useState('');
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -28,23 +28,34 @@ const StaffLogin = () => {
     }
 
     return (
-        <div className="container">
-            <TextField id="outlined-basic"
-                       label="Username"
-                       variant="outlined"
-                       onChange={(e) => setStaffId(e.target.value)}/>
-            <TextField id="outlined-basic"
-                       label="Password"
-                       variant="outlined"
-                       onChange={(e) => setPassword(e.target.value)}/>
-            <Button variant="contained"
-                    type="submit"
-                    className="btn btn-dark"
-                    onClick={handleLogin}>
-                Login
-
-            </Button>
+        <div className="Auth-form-container">
+            <div className="Auth-form">
+                <div className="Auth-form-content">
+                    <h3 className="Auth-form-title ">Staff Login</h3>
+                    <div className="form-group mt-3">
+                        <label > Username</label>
+                    </div>
+                    <input className="form-control mt-1"
+                          placeholder="Enter username"
+                               onChange={(e) => setStaffId(e.target.value)}/>
+                    <div className="form-group mt-3">
+                        <label> Password</label>
+                    </div>
+                    <input className="form-control mt-1"
+                           placeholder="Enter password"
+                               onChange={(e) => setPassword(e.target.value)}/>
+                    <div className="d-grid gap-2 mt-3">
+                        <button
+                            type="submit"
+                            className="btn btn-primary"
+                            onClick={handleLogin}>
+                            Login
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
+
     );
 }
 

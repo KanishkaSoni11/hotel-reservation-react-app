@@ -91,8 +91,10 @@ const StaffFood = () => {
 
     return (
 
-        <div className="container">
-            <h1> Staff Food </h1>
+        <div className="container m-2 p-2">
+            <h1> Staff Portal </h1>
+            <h2> Pending Food Orders</h2>
+            <br/>
 
 
             {getRoomData().map(data => data)}

@@ -4,15 +4,31 @@ import PlaceFoodOrder from "./PlaceFoodOrder";
 import {useEffect, useState} from "react";
 import {getOrderHistoryForCustomer, getRoomsForReservation} from "../../services/food-service";
 import Table from 'react-bootstrap/Table';
+import Button from "react-bootstrap/Button";
+import {checkoutCustomer} from "../../services/customer-service";
+import {useNavigate} from "react-router-dom";
 
 const CustomerHome = () => {
 
     const {currentCustomer, reservationDetails, orderList} = useSelector(state => state.customerData);
+    console.log("id", currentCustomer.customerID);
+    console.log("number", reservationDetails.reservationNumber);
+
     const [room, setRoom] = useState([])
     // const [orders, setOrders] = useState([])
     console.log(currentCustomer);
-    console.log(reservationDetails);
 
+    console.log(reservationDetails);
+    const handleCheckout = async () => {
+        const customerId = currentCustomer.customerID;
+        const resNumber = reservationDetails.reservationNumber;
+        const res = await checkoutCustomer(customerId, resNumber);
+        if(res){
+            alert("Checkout done");
+        }
+
+
+    }
 
     useEffect(() => {
         const fetchRooms = async () => {
@@ -127,6 +143,13 @@ const CustomerHome = () => {
                      </tbody>
                  </Table>
              </div> : null}
+            <Button
+                onClick={() => handleCheckout()}
+                variant="primary">
+                Checkout
+            </Button>
+            <MakeReservation/>
+            <PlaceFoodOrder/>
         </div>
     );
 }

@@ -39,3 +39,9 @@ export const getReservationFromCustomerId = async(customerId) => {
     console.log(response.data)
     return response.data
 }
+
+export const checkoutCustomer = async (customerId, reservationNumber) => {
+    const response = await api.post(`${API_BASE}/api/customer/checkout/${customerId}/${reservationNumber}`);
+    return response.data
+
+}

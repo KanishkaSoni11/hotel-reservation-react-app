@@ -45,14 +45,32 @@ const CustomerLogin = () => {
     }
 
     return (
-        <div className="container d-block">
-            <Form.Control type="email" placeholder="Email" onChange={(event) => {
-                handleTextFieldChange('emailId', event.target.value);
-            }}/>
-            <Form.Control type="password" placeholder="Password" onChange={(event) => {
-                handleTextFieldChange('password', event.target.value);
-            }}/>
-            <Button variant="primary" onClick={handleCustomerLogin}>Login</Button>
+        <div className="Auth-form-container">
+            <div className="Auth-form">
+                <div className="Auth-form-content">
+                    <h3 className="Auth-form-title ">Guest Login</h3>
+                    <div className="form-group mt-3">
+                        <label> Email Id</label>
+                    </div>
+                    <input className="form-control mt-1"
+                           placeholder="Enter username" onChange={(event) => {
+                        handleTextFieldChange('emailId', event.target.value);
+                    }}/>
+                    <div className="form-group mt-3">
+                        <label> Password</label>
+                    </div>
+                    <input className="form-control mt-1"
+                           placeholder="Enter password" onChange={(event) => {
+                        handleTextFieldChange('password', event.target.value);
+                    }}/>
+                    <div className="d-grid gap-2 mt-3">
+                        <button
+                            type="submit"
+                            className="btn btn-primary" onClick={handleCustomerLogin}>Login
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }

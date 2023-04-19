@@ -18,27 +18,28 @@ const StaffHome = () =>{
     }
     return(
 
-        <div className="container">
-        <h1> Staff Home {currentStaff.firstName}</h1>
+        <div className="container p-2 m-2">
+        <h1 > Welcome to Staff Portal {currentStaff.firstName}</h1>
+            <Button variant="contained"
+                    type="submit"
+                    className="btn btn-dark m-2 p-2 "
+                    onClick={handleFoodButton}>
+                Pending Food Orders
+
+            </Button>
+
+            <Button variant="contained"
+                    type="submit"
+                    className="btn btn-dark m-2 p-2"
+                    onClick={handleRoomButton}>
+                Pending Room Assignments
+
+            </Button>
             <ActiveReservations/>
             <br></br>
             { console.log("home" ,currentStaff)}
             <div className="container">
-                <Button variant="contained"
-                        type="submit"
-                        className="btn btn-dark"
-                        onClick={handleFoodButton}>
-                    Food
 
-                </Button>
-
-                <Button variant="contained"
-                        type="submit"
-                        className="btn btn-dark"
-                        onClick={handleRoomButton}>
-                    Room
-
-                </Button>
             </div>
 
         </div>

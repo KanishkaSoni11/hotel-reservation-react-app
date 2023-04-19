@@ -60,8 +60,8 @@ const StaffRoom = () => {
     console.log(roomsUnassigned);
 
     return (
-        <>
-            <h1> Staff Room</h1>
+        <div className="container p-2 m-2">
+            <h1> Staff Portal</h1>
 
             <h2>Unassigned Reservations</h2>
             <br/>
@@ -114,7 +114,7 @@ const StaffRoom = () => {
                 </tbody>
             </Table>
 
-        </>
+        </div>
     )
 }
 

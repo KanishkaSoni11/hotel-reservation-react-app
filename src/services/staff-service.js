@@ -22,7 +22,12 @@ export const loginStaff = async (staff) =>{
     return response.data
 }
 
-export const roomsUnassigned = async () => {
+export const getRoomsUnassigned = async () => {
     const response = await api.get(`${API_BASE}/api/reservation/roomsunassigned`);
+    return response.data
+}
+
+export const getActiveReservations = async()  => {
+    const response = await api.get(`${API_BASE}/activeReservation`);
     return response.data
 }

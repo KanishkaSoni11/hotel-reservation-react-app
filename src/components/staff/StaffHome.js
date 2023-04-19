@@ -2,6 +2,7 @@ import StaffLogin from "./StaffLogin";
 import {useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import {Button} from "@mui/material";
+import ActiveReservations from "./ActiveReservations";
 
 const StaffHome = () =>{
 
@@ -17,9 +18,10 @@ const StaffHome = () =>{
     }
     return(
 
-        <>
+        <div className="container">
         <h1> Staff Home {currentStaff.firstName}</h1>
-
+            <ActiveReservations/>
+            <br></br>
             { console.log("home" ,currentStaff)}
             <div className="container">
                 <Button variant="contained"
@@ -39,7 +41,7 @@ const StaffHome = () =>{
                 </Button>
             </div>
 
-        </>
+        </div>
     )
 }
 

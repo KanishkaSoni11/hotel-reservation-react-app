@@ -19,16 +19,7 @@ const CustomerHome = () => {
     console.log(currentCustomer);
 
     console.log(reservationDetails);
-    const handleCheckout = async () => {
-        const customerId = currentCustomer.customerID;
-        const resNumber = reservationDetails.reservationNumber;
-        const res = await checkoutCustomer(customerId, resNumber);
-        if(res){
-            alert("Checkout done");
-        }
 
-
-    }
 
     useEffect(() => {
         const fetchRooms = async () => {
@@ -143,13 +134,8 @@ const CustomerHome = () => {
                      </tbody>
                  </Table>
              </div> : null}
-            <Button
-                onClick={() => handleCheckout()}
-                variant="primary">
-                Checkout
-            </Button>
-            <MakeReservation/>
-            <PlaceFoodOrder/>
+
+
         </div>
     );
 }

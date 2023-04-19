@@ -6,7 +6,7 @@ import {
     makeReservation,
     registerCustomer
 } from "./customer-service";
-import {placeFoodOrder} from "./food-service";
+import {getOrderHistoryForCustomer} from "./food-service";
 
 export const getCustomerByEmailThunk = createAsyncThunk(
     'getStaffById',
@@ -31,4 +31,9 @@ export const makeReservationThunk = createAsyncThunk(
 export const getReservationFromCustomerIdThunk = createAsyncThunk(
     'getReservationFromCustomerId',
     async(customerId) => await getReservationFromCustomerId(customerId)
+)
+
+export const getOrderHistoryFromCustomerIdThunk = createAsyncThunk(
+    'getOrderHistoryFromCustomerIdThunk',
+    async(customerId) => await getOrderHistoryForCustomer(customerId)
 )

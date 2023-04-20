@@ -45,3 +45,11 @@ export const checkoutCustomer = async (customerId, reservationNumber) => {
     return response.data
 
 }
+
+export const getCustomerFromLocalStorage = (customerDetails) => {
+    return customerDetails;
+}
+
+export const logoutResetStates = () => {
+    return null;
+}

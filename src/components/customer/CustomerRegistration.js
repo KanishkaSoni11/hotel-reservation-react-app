@@ -29,6 +29,10 @@ const CustomerRegistration = () => {
         const registerCustomer = await dispatch(registerCustomerThunk(customer));
         console.log(registerCustomer)
         if (registerCustomer.payload.customerID !== undefined) {
+            if (localStorage.getItem("customerDetails")) {
+                localStorage.removeItem("customerDetails");
+            }
+            localStorage.setItem("customerDetails", JSON.stringify(registerCustomer.payload));
             navigate('/customer/home');
         } else {
             alert("Error while registering user");

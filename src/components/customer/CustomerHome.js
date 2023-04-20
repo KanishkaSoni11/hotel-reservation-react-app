@@ -1,11 +1,15 @@
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import MakeReservation from "./MakeReservation";
 import PlaceFoodOrder from "./PlaceFoodOrder";
 import {useEffect, useState} from "react";
-import {getOrderHistoryForCustomer, getRoomsForReservation} from "../../services/food-service";
+import {getRoomsForReservation} from "../../services/food-service";
 import Table from 'react-bootstrap/Table';
+import {
+    getCustomerDetailsFromLocalStorageThunk,
+    getOrderHistoryFromCustomerIdThunk,
+    getReservationFromCustomerIdThunk, logoutResetStateThunk
+} from "../../services/customer-thunk";
 import Button from "react-bootstrap/Button";
-import {checkoutCustomer} from "../../services/customer-service";
 import {useNavigate} from "react-router-dom";
 
 const CustomerHome = () => {
@@ -15,34 +19,60 @@ const CustomerHome = () => {
     console.log("number", reservationDetails.reservationNumber);
 
     const [room, setRoom] = useState([])
-    // const [orders, setOrders] = useState([])
     console.log(currentCustomer);
-
     console.log(reservationDetails);
 
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     useEffect(() => {
-        const fetchRooms = async () => {
-            const rooms = await getRoomsForReservation(reservationDetails.reservationNumber);
+        const fetchFromLocalStorage = async () => {
+            if (currentCustomer.customerID === undefined && localStorage.getItem("customerDetails")) {
+                console.log("Checking localstrorage first")
+                console.log(JSON.parse(localStorage.getItem("customerDetails")));
+                const res = await dispatch(getCustomerDetailsFromLocalStorageThunk(
+                    JSON.parse(localStorage.getItem("customerDetails"))));
+                return res.payload;
+            }
+        }
+        const fetchRooms = async (customer) => {
+            console.log("Fetching other details")
+            console.log(customer);
+            const customerReservations = await dispatch(getReservationFromCustomerIdThunk(customer.customerID));
+            const customerOrders = await dispatch(getOrderHistoryFromCustomerIdThunk(customer.customerID));
+            console.log(customerReservations);
+            const rooms = await getRoomsForReservation(customerReservations.payload.reservationNumber);
             const roomList = rooms.data.map(r => r.roomNumber)
             console.log(roomList)
             setRoom(roomList);
+            console.log(currentCustomer);
+            console.log(reservationDetails);
         }
-        // const fetchOrders = async () => {
-        //     const orderList = await getOrderHistoryForCustomer(parseInt(currentCustomer.customerID));
-        //     console.log(orderList);
-        //     setOrders(orderList);
-        // }
-        fetchRooms();
-        // fetchOrders();
+        fetchFromLocalStorage().then(r => fetchRooms(r));
     }, [])
+
+    console.log(currentCustomer);
+    console.log(reservationDetails);
 
     return (
         <div>
-            <h1> Customer Home {currentCustomer.firstName}</h1>
+            <div>
+                <h1 className="justify-content-start"> Welcome {currentCustomer.firstName} !</h1>
+                <Button className="justify-content-end" variant="danger" onClick={async () => {
+                    if (localStorage.getItem("customerDetails")) {
+                        console.log("Logging out")
+                        localStorage.removeItem("customerDetails");
+                        const out = await dispatch(logoutResetStateThunk())
+                        navigate("/")
+                    } else {
+                        console.log("Logging out")
+                        localStorage.removeItem("staffDetails");
+                        const out = await dispatch(logoutResetStateThunk())
+                        navigate("/")
+                    }
+                }}>Logout</Button>
+            </div>
             <MakeReservation isActive={reservationDetails.reservationNumber}/>
-            <br/>
-            <PlaceFoodOrder />
             <br/>
             <h2>Pending Reservations</h2>
             {reservationDetails?.reservationNumber !== undefined && room?.length === 0 ?
@@ -56,7 +86,6 @@ const CustomerHome = () => {
                          <th>Check-out Date</th>
                          <th>Number of Guests</th>
                          <th>Number of Rooms</th>
-                         <th>Rooms</th>
                      </tr>
                      </thead>
                      <tbody>
@@ -85,7 +114,7 @@ const CustomerHome = () => {
                             <th>Check-out Date</th>
                             <th>Number of Guests</th>
                             <th>Number of Rooms</th>
-                            <th>Rooms</th>
+                            <th>Rooms Assigned</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -102,6 +131,8 @@ const CustomerHome = () => {
                     </Table>
                 </div>
                              : null}
+            <br/>
+            <PlaceFoodOrder />
             <br/>
             <h2>Orders</h2>
             <br/>

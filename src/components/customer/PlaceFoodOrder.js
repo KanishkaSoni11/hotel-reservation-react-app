@@ -106,7 +106,6 @@ const PlaceFoodOrder = () => {
     return (
         <div className="d-block">
             <Button variant="warning" onClick={handleShow}>Place Food Order</Button>
-            <Button variant="danger">Checkout</Button>
             <Modal show={show} onHide={handleClose} animation={false} size={"lg"}>
                 <Modal.Header closeButton>
                     <Modal.Title>Food Order</Modal.Title>

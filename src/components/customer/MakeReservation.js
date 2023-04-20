@@ -11,7 +11,7 @@ const MakeReservation = ({isActive}) => {
     const [toDate, setToDate] = useState('');
     const [numRooms, setNumRooms] = useState(0);
     const [numGuests, setNumGuests] = useState(0);
-    const [roomType, setRoomType] = useState("KING");
+    const [roomType, setRoomType] = useState("");
 
     const [isReservationPlace, setIsReservationPlaced] = useState(true);
 
@@ -30,6 +30,9 @@ const MakeReservation = ({isActive}) => {
             case 'numGuests':
                 setNumGuests(+value);
                 break;
+            case 'roomType':
+                setRoomType(value);
+                break;
             default:
                 break;
         }
@@ -42,7 +45,7 @@ const MakeReservation = ({isActive}) => {
         const reservationDetails = {currentCustomer, fromDate, toDate, numRooms, numGuests, roomType};
         const reservation = await dispatch(makeReservationThunk(reservationDetails));
         console.log(reservation)
-        if (reservation.payload.reservation_number !== undefined) {
+        if (reservation.payload.reservationNumber !== undefined) {
            alert("Congratulations! Your reservation has been placed!")
             setIsReservationPlaced(false);
         } else {
@@ -77,6 +80,17 @@ const MakeReservation = ({isActive}) => {
                         <Form.Control className="m-2" type="number" placeholder="Number of Guests" onChange={(event) => {
                             handleOnChange('numGuests', event.target.value);
                         }}/>
+                    </div>
+                    <div className="d-block mx-4">
+                        <Form.Label className="m-2">Room Type</Form.Label>
+                        <Form.Select className="m-2" placeholder="Room Type" onChange={(event) => {
+                            console.log("roomtype", event.target.value);
+                            handleOnChange('roomType', event.target.value);
+                        }}>
+                            <option value="-1">Select a Room Type</option>
+                            <option value="KING">KING</option>
+                            <option value="SUITE">SUITE</option>
+                        </Form.Select>
                     </div>
                     <div className="d-block mx-4">
                         <Form.Label className="m-2"></Form.Label>

@@ -22,6 +22,7 @@ const StaffLogin = () => {
             alert('Invalid username or password!')
         } else {
             // console.log("else" ,loginRes)
+            localStorage.setItem("staffDetails", JSON.stringify(loginRes.payload));
             navigate("/staff/home");
         }
 

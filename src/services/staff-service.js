@@ -31,3 +31,7 @@ export const getActiveReservations = async()  => {
     const response = await api.get(`${API_BASE}/activeReservation`);
     return response.data
 }
+
+export const getStaffDetailsFromLocalStorage = async(staff) => {
+    return staff;
+}

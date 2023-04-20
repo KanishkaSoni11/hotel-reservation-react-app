@@ -4,7 +4,8 @@ import {
     loginCustomerThunk,
     makeReservationThunk,
     registerCustomerThunk,
-    getOrderHistoryFromCustomerIdThunk
+    getOrderHistoryFromCustomerIdThunk,
+    getCustomerDetailsFromLocalStorageThunk
 } from "../services/customer-thunk";
 
 const customerSlice = createSlice({
@@ -48,6 +49,12 @@ const customerSlice = createSlice({
            console.log("Getting order list in thunk");
            console.log(action);
            state.orderList = action.payload
+           console.log(state)
+           state.loading = false
+       },
+       [getCustomerDetailsFromLocalStorageThunk.fulfilled]: (state, action) => {
+           console.log("Getting customer from local storage");
+           state.currentCustomer = action.payload
            console.log(state)
            state.loading = false
        }

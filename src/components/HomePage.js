@@ -1,8 +1,34 @@
-import {Link, useNavigate} from "react-router-dom";
-import Button from 'react-bootstrap/Button';
+import {useNavigate} from "react-router-dom";
+import {useEffect} from "react";
+import {useDispatch} from "react-redux";
+import {getCustomerDetailsFromLocalStorageThunk} from "../services/customer-thunk";
+
 
 const HomePage = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        const fetchDataFromLocalStorage = async () => {
+            console.log(JSON.parse(localStorage.getItem("customerDetails")));
+            if (localStorage.getItem("staffDetails")) {
+                console.log("Staff is already logged in")
+                console.log(localStorage.getItem("staffDetails"));
+                const res = await dispatch(getCustomerDetailsFromLocalStorageThunk(
+                    JSON.parse(localStorage.getItem("customerDetails"))));
+                navigate("/staff/home");
+            }
+            if (localStorage.getItem("customerDetails")) {
+                console.log("Guest is already logged in")
+                console.log(localStorage.getItem("customerDetails"));
+                const res = await dispatch(getCustomerDetailsFromLocalStorageThunk(
+                    JSON.parse(localStorage.getItem("customerDetails"))));
+                navigate("/customer/home");
+            }
+        }
+        fetchDataFromLocalStorage();
+    })
+
     return (
         <div className="Auth-form-container">
             <div className="Auth-form">

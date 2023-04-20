@@ -42,7 +42,7 @@ const MakeReservation = ({isActive}) => {
         const reservationDetails = {currentCustomer, fromDate, toDate, numRooms, numGuests, roomType};
         const reservation = await dispatch(makeReservationThunk(reservationDetails));
         console.log(reservation)
-        if (reservation.payload.reservation_number !== undefined) {
+        if (reservation.payload.reservationNumber !== undefined) {
            alert("Congratulations! Your reservation has been placed!")
             setIsReservationPlaced(false);
         } else {

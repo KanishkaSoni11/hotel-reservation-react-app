@@ -24,6 +24,7 @@ const CustomerLogin = () => {
         console.log(loginCustomer)
         if (loginCustomer.payload.customerID !== undefined) {
             const customerReservations = await dispatch(getReservationFromCustomerIdThunk(loginCustomer.payload.customerID));
+            localStorage.setItem("customerDetails" , JSON.stringify(loginCustomer.payload));
             const customerOrders = await dispatch(getOrderHistoryFromCustomerIdThunk(loginCustomer.payload.customerID));
             navigate('/customer/home');
         } else {

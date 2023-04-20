@@ -7,7 +7,7 @@ import Table from 'react-bootstrap/Table';
 import {
     getCustomerDetailsFromLocalStorageThunk,
     getOrderHistoryFromCustomerIdThunk,
-    getReservationFromCustomerIdThunk
+    getReservationFromCustomerIdThunk, logoutResetStateThunk
 } from "../../services/customer-thunk";
 import Button from "react-bootstrap/Button";
 import {useNavigate} from "react-router-dom";
@@ -58,14 +58,16 @@ const CustomerHome = () => {
         <div>
             <div>
                 <h1 className="justify-content-start"> Welcome {currentCustomer.firstName} !</h1>
-                <Button className="justify-content-end" variant="danger" onClick={() => {
+                <Button className="justify-content-end" variant="danger" onClick={async () => {
                     if (localStorage.getItem("customerDetails")) {
                         console.log("Logging out")
                         localStorage.removeItem("customerDetails");
+                        const out = await dispatch(logoutResetStateThunk())
                         navigate("/")
                     } else {
                         console.log("Logging out")
                         localStorage.removeItem("staffDetails");
+                        const out = await dispatch(logoutResetStateThunk())
                         navigate("/")
                     }
                 }}>Logout</Button>

@@ -49,3 +49,7 @@ export const checkoutCustomer = async (customerId, reservationNumber) => {
 export const getCustomerFromLocalStorage = (customerDetails) => {
     return customerDetails;
 }
+
+export const logoutResetStates = () => {
+    return null;
+}

@@ -2,7 +2,7 @@ import {createAsyncThunk} from "@reduxjs/toolkit";
 import {
     getCustomerByEmail, getCustomerFromLocalStorage,
     getReservationFromCustomerId,
-    loginCustomer,
+    loginCustomer, logoutResetStates,
     makeReservation,
     registerCustomer
 } from "./customer-service";
@@ -41,4 +41,9 @@ export const getOrderHistoryFromCustomerIdThunk = createAsyncThunk(
 export const getCustomerDetailsFromLocalStorageThunk = createAsyncThunk(
     'getCustomerDetailsFromLocalStorageThunk',
     async (customerDetails) => await getCustomerFromLocalStorage(customerDetails)
+)
+
+export const logoutResetStateThunk = createAsyncThunk(
+    'logoutResetStateThunk',
+    async () => await logoutResetStates()
 )

@@ -43,7 +43,7 @@ const StaffLogin = () => {
                         <label> Password</label>
                     </div>
                     <input className="form-control mt-1"
-                           placeholder="Enter password"
+                           placeholder="Enter password" type="password"
                                onChange={(e) => setPassword(e.target.value)}/>
                     <div className="d-grid gap-2 mt-3">
                         <button

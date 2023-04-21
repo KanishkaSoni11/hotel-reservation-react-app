@@ -97,6 +97,7 @@ const CustomerHome = () => {
                             <th>Check-out Date</th>
                             <th>Number of Guests</th>
                             <th>Number of Rooms</th>
+                            <th>Type of Room</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -107,6 +108,7 @@ const CustomerHome = () => {
                             <td>{reservationDetails.toDate}</td>
                             <td>{reservationDetails.numberOfGuests}</td>
                             <td>{reservationDetails.numberOfRooms}</td>
+                            <td>{reservationDetails.typeOfRoom}</td>
                         </tr>
                         </tbody>
                     </Table>
@@ -125,6 +127,7 @@ const CustomerHome = () => {
                             <th>Check-out Date</th>
                             <th>Number of Guests</th>
                             <th>Number of Rooms</th>
+                            <th>Type of Room</th>
                             <th>Rooms Assigned</th>
                         </tr>
                         </thead>
@@ -136,6 +139,7 @@ const CustomerHome = () => {
                             <td>{reservationDetails.toDate}</td>
                             <td>{reservationDetails.numberOfGuests}</td>
                             <td>{reservationDetails.numberOfRooms}</td>
+                            <td>{reservationDetails.typeOfRoom}</td>
                             <td>{room.join(",")}</td>
                         </tr>
                         </tbody>

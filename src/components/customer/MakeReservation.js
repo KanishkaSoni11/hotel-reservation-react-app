@@ -11,24 +11,46 @@ const MakeReservation = ({isActive}) => {
     const [toDate, setToDate] = useState('');
     const [numRooms, setNumRooms] = useState(0);
     const [numGuests, setNumGuests] = useState(0);
-    const [roomType, setRoomType] = useState("");
+    const [roomType, setRoomType] = useState("INIT");
 
     const [isReservationPlace, setIsReservationPlaced] = useState(true);
 
     console.log("Make reservation is " + isActive);
     const handleOnChange = (field, value) => {
+        let date = new Date().toISOString().slice(0, 10);
+        console.log(value);
         switch (field) {
             case 'fromDate':
-                setFromDate(value);
+                if (value <= date) {
+                    alert("You cannot choose a check-in date that is older than today");
+                } else {
+                    setFromDate(value);
+                }
                 break;
             case 'toDate':
-                setToDate(value);
+                if (value <= date) {
+                    alert("You cannot choose a check-out date that is older than today");
+                } else if ( value <= fromDate) {
+                    alert("You cannot choose a check-out date that is older than check-in date");
+                }else {
+                    setToDate(value);
+                }
                 break;
             case 'numRooms':
-                setNumRooms(+value);
+                let finalVal = +value;
+                if (finalVal <= 0) {
+                    alert("Please enter a valid number of rooms");
+                } else {
+                    setNumRooms(+value);
+                }
                 break;
             case 'numGuests':
-                setNumGuests(+value);
+                let guestVal = +value;
+                if (guestVal <= 0) {
+                    alert("Please enter a valid number of guests");
+                } else {
+                    setNumGuests(+value);
+                }
                 break;
             case 'roomType':
                 setRoomType(value);
@@ -41,15 +63,33 @@ const MakeReservation = ({isActive}) => {
     const dispatch = useDispatch();
 
     const handlePlaceReservation  = async () => {
-        console.log("Checking if reservation is possible or not");
-        const reservationDetails = {currentCustomer, fromDate, toDate, numRooms, numGuests, roomType};
-        const reservation = await dispatch(makeReservationThunk(reservationDetails));
-        console.log(reservation)
-        if (reservation.payload.reservationNumber !== undefined) {
-           alert("Congratulations! Your reservation has been placed!")
-            setIsReservationPlaced(false);
+        let date = new Date().toISOString().slice(0, 10);
+        if (fromDate <= date) {
+            alert("You cannot choose a check-in date that is older than today")
+        } else if (toDate <= date) {
+            alert("You cannot choose a check-out date that is older than today");
+        } else if (toDate <= fromDate) {
+            alert("You cannot choose a check-out date that is older than check-in date");
+        } else if (roomType == "INIT" || roomType == "-1") {
+            alert("Please choose a valid room type");
         } else {
-            alert("Reservation Not Possible");
+            console.log("Checking if reservation is possible or not");
+            const reservationDetails = {
+                currentCustomer,
+                fromDate,
+                toDate,
+                numRooms,
+                numGuests,
+                roomType
+            };
+            const reservation = await dispatch(makeReservationThunk(reservationDetails));
+            console.log(reservation)
+            if (reservation.payload.reservationNumber !== undefined) {
+                alert("Congratulations! Your reservation has been placed!")
+                setIsReservationPlaced(false);
+            } else {
+                alert("Reservation Not Possible");
+            }
         }
     }
 

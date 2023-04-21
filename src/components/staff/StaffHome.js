@@ -36,7 +36,7 @@ const StaffHome = () =>{
         <div className="container p-2 m-2">
             <div className="row">
                 <div className="col-10">
-                    <h1 > Welcome to Staff Portal {currentStaff.firstName}</h1>
+                    <h1 > Welcome {currentStaff.firstName}</h1>
                 </div>
                 <div className="col-2">
                     <Button className="justify-content-end m-2 p-2" variant="danger" onClick={() => {

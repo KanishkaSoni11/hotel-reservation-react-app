@@ -9,7 +9,7 @@ const StaffFood = () => {
     const [pendingOrders, setPendingOrders] = useState([]);
     const [ordersForRoom, setOrdersForRoom] = useState({});
     const {currentStaff} = useSelector(state => state.staffData);
-
+    const[renderList, setRenderList] = useState([]);
 
     useEffect(() => {
         const res = async () => {
@@ -92,12 +92,13 @@ const StaffFood = () => {
     return (
 
         <div className="container m-2 p-2">
-            <h1> Staff Portal </h1>
+            <h1> Welcome {currentStaff.firstName} </h1>
             <h2> Pending Food Orders</h2>
             <br/>
 
 
-            {getRoomData().map(data => data)}
+            {getRoomData().length > 0 ? getRoomData().map(data => data)
+                : <h5> No Pending Food Orders</h5>}
 
 
         </div>

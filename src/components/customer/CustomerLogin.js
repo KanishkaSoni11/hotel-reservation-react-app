@@ -60,7 +60,7 @@ const CustomerLogin = () => {
                     <div className="form-group mt-3">
                         <label> Password</label>
                     </div>
-                    <input className="form-control mt-1"
+                    <input className="form-control mt-1" type="password"
                            placeholder="Enter password" onChange={(event) => {
                         handleTextFieldChange('password', event.target.value);
                     }}/>

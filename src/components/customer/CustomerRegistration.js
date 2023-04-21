@@ -1,5 +1,4 @@
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
+
 import {useState} from "react";
 import {useDispatch} from "react-redux";
 import {useNavigate} from "react-router-dom";
@@ -87,7 +86,7 @@ const CustomerRegistration = () => {
                         <div className="form-group mt-2">
                             <label>Password</label>
                             <input
-                                className="form-control mt-1"
+                                className="form-control mt-1" type="password"
                                 placeholder="password" onChange={(event) => {
                                 handleFieldOnChange('password', event.target.value);
                             }}/>

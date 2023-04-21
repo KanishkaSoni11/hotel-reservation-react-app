@@ -33,11 +33,17 @@ const CustomerHome = () => {
                 const res = await dispatch(getCustomerDetailsFromLocalStorageThunk(
                     JSON.parse(localStorage.getItem("customerDetails"))));
                 return res.payload;
+            } else {
+                return undefined;
             }
+
         }
         const fetchRooms = async (customer) => {
             console.log("Fetching other details")
-            console.log(customer);
+            // console.log(customer);
+            if (customer === undefined) {
+                customer = currentCustomer
+            }
             const customerReservations = await dispatch(getReservationFromCustomerIdThunk(customer.customerID));
             const customerOrders = await dispatch(getOrderHistoryFromCustomerIdThunk(customer.customerID));
             console.log(customerReservations);
@@ -55,52 +61,57 @@ const CustomerHome = () => {
     console.log(reservationDetails);
 
     return (
-        <div>
-            <div>
-                <h1 className="justify-content-start"> Welcome {currentCustomer.firstName} !</h1>
-                <Button className="justify-content-end" variant="danger" onClick={async () => {
-                    if (localStorage.getItem("customerDetails")) {
-                        console.log("Logging out")
-                        localStorage.removeItem("customerDetails");
-                        const out = await dispatch(logoutResetStateThunk())
-                        navigate("/")
-                    } else {
-                        console.log("Logging out")
-                        localStorage.removeItem("staffDetails");
-                        const out = await dispatch(logoutResetStateThunk())
-                        navigate("/")
-                    }
-                }}>Logout</Button>
-            </div>
+        <div className="container p-2 m-2">
+                <div className="row m-2 ms-0 pe-4">
+                    <div className="col-11">
+                        <h1 className="justify-content-start align-items-end"> Welcome {currentCustomer.firstName} !</h1>
+                    </div>
+                    <div className="col-1">
+                        <Button className="justify-content-end " variant="danger" onClick={async () => {
+                            if (localStorage.getItem("customerDetails")) {
+                                console.log("Logging out")
+                                localStorage.removeItem("customerDetails");
+                                const out = await dispatch(logoutResetStateThunk())
+                                navigate("/")
+                            } else {
+                                console.log("Logging out")
+                                localStorage.removeItem("staffDetails");
+                                const out = await dispatch(logoutResetStateThunk())
+                                navigate("/")
+                            }
+                        }}>Logout</Button>
+                    </div>
+                </div>
+
             <MakeReservation isActive={reservationDetails.reservationNumber}/>
             <br/>
             <h2>Pending Reservations</h2>
             {reservationDetails?.reservationNumber !== undefined && room?.length === 0 ?
-             <div>
-                 <Table striped bordered hover>
-                     <thead>
-                     <tr>
-                         <th>Reservation Number</th>
-                         <th>Date of Reservation</th>
-                         <th>Check-in Date</th>
-                         <th>Check-out Date</th>
-                         <th>Number of Guests</th>
-                         <th>Number of Rooms</th>
-                     </tr>
-                     </thead>
-                     <tbody>
-                     <tr>
-                         <td>{reservationDetails.reservationNumber}</td>
-                         <td>{reservationDetails.dateOfReservation}</td>
-                         <td>{reservationDetails.fromDate}</td>
-                         <td>{reservationDetails.toDate}</td>
-                         <td>{reservationDetails.numberOfGuests}</td>
-                         <td>{reservationDetails.numberOfRooms}</td>
-                     </tr>
-                     </tbody>
-                 </Table>
-             </div>
-                             : null}
+                <div>
+                    <Table striped bordered hover>
+                        <thead>
+                        <tr>
+                            <th>Reservation Number</th>
+                            <th>Date of Reservation</th>
+                            <th>Check-in Date</th>
+                            <th>Check-out Date</th>
+                            <th>Number of Guests</th>
+                            <th>Number of Rooms</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>{reservationDetails.reservationNumber}</td>
+                            <td>{reservationDetails.dateOfReservation}</td>
+                            <td>{reservationDetails.fromDate}</td>
+                            <td>{reservationDetails.toDate}</td>
+                            <td>{reservationDetails.numberOfGuests}</td>
+                            <td>{reservationDetails.numberOfRooms}</td>
+                        </tr>
+                        </tbody>
+                    </Table>
+                </div>
+                : null}
             <br/>
             <h2>Active Reservations</h2>
             {reservationDetails?.reservationNumber !== undefined && room?.length > 0 ?
@@ -130,41 +141,41 @@ const CustomerHome = () => {
                         </tbody>
                     </Table>
                 </div>
-                             : null}
+                : null}
             <br/>
-            <PlaceFoodOrder />
+            <PlaceFoodOrder/>
             <br/>
             <h2>Orders</h2>
             <br/>
             {orderList?.length > 0 ?
-             <div>
-                 <Table striped bordered hover>
-                     <thead>
-                     <tr>
-                         <th>Order ID</th>
-                         <th>Room Number</th>
-                         <th>Food Item Name</th>
-                         <th>Quantity</th>
-                         <th>Status</th>
-                     </tr>
-                     </thead>
-                     <tbody>
-                     {orderList.map((order) => {
-                         return (
-                             <>
-                                 <tr>
-                                     <td>{order.orderId}</td>
-                                     <td>{order.roomNumber}</td>
-                                     <td>{order.itemName}</td>
-                                     <td>{order.quantity}</td>
-                                     <td>{order.status}</td>
-                                 </tr>
-                             </>
-                         );
-                     })}
-                     </tbody>
-                 </Table>
-             </div> : null}
+                <div>
+                    <Table striped bordered hover>
+                        <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Room Number</th>
+                            <th>Food Item Name</th>
+                            <th>Quantity</th>
+                            <th>Status</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {orderList.map((order) => {
+                            return (
+                                <>
+                                    <tr>
+                                        <td>{order.orderId}</td>
+                                        <td>{order.roomNumber}</td>
+                                        <td>{order.itemName}</td>
+                                        <td>{order.quantity}</td>
+                                        <td>{order.status}</td>
+                                    </tr>
+                                </>
+                            );
+                        })}
+                        </tbody>
+                    </Table>
+                </div> : null}
 
 
         </div>

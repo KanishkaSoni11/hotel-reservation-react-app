@@ -34,7 +34,26 @@ const StaffHome = () =>{
     return(
 
         <div className="container p-2 m-2">
-        <h1 > Welcome to Staff Portal {currentStaff.firstName}</h1>
+            <div className="row">
+                <div className="col-10">
+                    <h1 > Welcome to Staff Portal {currentStaff.firstName}</h1>
+                </div>
+                <div className="col-2">
+                    <Button className="justify-content-end m-2 p-2" variant="danger" onClick={() => {
+                        if (localStorage.getItem("customerDetails")) {
+                            console.log("Logging out")
+                            localStorage.removeItem("customerDetails");
+                            navigate("/")
+                        } else {
+                            console.log("Logging out")
+                            localStorage.removeItem("staffDetails");
+                            navigate("/")
+                        }
+                    }}>Logout</Button>
+                </div>
+
+            </div>
+
             <Button variant="primary"
                     type="submit"
                     className="m-2 p-2 "
@@ -50,17 +69,7 @@ const StaffHome = () =>{
                 Pending Room Assignments
 
             </Button>
-            <Button className="justify-content-end m-2 p-2" variant="danger" onClick={() => {
-                if (localStorage.getItem("customerDetails")) {
-                    console.log("Logging out")
-                    localStorage.removeItem("customerDetails");
-                    navigate("/")
-                } else {
-                    console.log("Logging out")
-                    localStorage.removeItem("staffDetails");
-                    navigate("/")
-                }
-            }}>Logout</Button>
+
             <ActiveReservations/>
             <br></br>
             { console.log("home" ,currentStaff)}

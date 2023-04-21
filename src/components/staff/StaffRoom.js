@@ -61,7 +61,7 @@ const StaffRoom = () => {
 
     return (
         <div className="container p-2 m-2">
-            <h1> Staff Portal</h1>
+            <h1> Welcome {currentStaff.firstName}</h1>
 
             <h2>Unassigned Reservations</h2>
             <br/>

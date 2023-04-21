@@ -113,7 +113,11 @@ const CustomerHome = () => {
                         </tbody>
                     </Table>
                 </div>
-                : null}
+                :
+             <div>
+                 <h5>You have no pending reservations</h5>
+             </div>
+            }
             <br/>
             <h2>Active Reservations</h2>
             {reservationDetails?.reservationNumber !== undefined && room?.length > 0 ?
@@ -145,7 +149,11 @@ const CustomerHome = () => {
                         </tbody>
                     </Table>
                 </div>
-                : null}
+                :
+             <div>
+                 <h5>You have no active reservations</h5>
+             </div>
+            }
             <br/>
             <PlaceFoodOrder/>
             <br/>
@@ -179,7 +187,11 @@ const CustomerHome = () => {
                         })}
                         </tbody>
                     </Table>
-                </div> : null}
+                </div> :
+                <div>
+                    <h5>You have no food orders</h5>
+                </div>
+            }
 
 
         </div>

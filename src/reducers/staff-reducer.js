@@ -1,5 +1,10 @@
 import {createSlice} from "@reduxjs/toolkit";
-import {getStaffByIdThunk, loginStaffThunk, roomsUnassignedThunk} from "../services/staff-thunk";
+import {
+    getStaffByIdThunk,
+    getStaffDetailsFromLocalStorageThunk,
+    loginStaffThunk,
+    roomsUnassignedThunk
+} from "../services/staff-thunk";
 
 const staffSlice = createSlice({
     name: 'staff',
@@ -21,6 +26,10 @@ const staffSlice = createSlice({
         },
         [roomsUnassignedThunk.fulfilled] : (state, action) => {
             state.roomsUnassigned = action.payload
+            state.loading = false;
+        },
+        [getStaffDetailsFromLocalStorageThunk.fulfilled]: (state, action) => {
+            state.currentStaff = action.payload;
             state.loading = false;
         }
     }

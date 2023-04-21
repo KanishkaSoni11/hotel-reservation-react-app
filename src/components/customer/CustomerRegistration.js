@@ -1,5 +1,4 @@
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
+
 import {useState} from "react";
 import {useDispatch} from "react-redux";
 import {useNavigate} from "react-router-dom";
@@ -22,11 +21,17 @@ const CustomerRegistration = () => {
     const navigate = useNavigate();
 
     const handlerCustomerRegistration = async () => {
-        const customer = {customerId, password, firstName, lastName, street, state, zipCode,
-            emailId, contactNumber, identificationNum}
+        const customer = {
+            customerId, password, firstName, lastName, street, state, zipCode,
+            emailId, contactNumber, identificationNum
+        }
         const registerCustomer = await dispatch(registerCustomerThunk(customer));
         console.log(registerCustomer)
         if (registerCustomer.payload.customerID !== undefined) {
+            if (localStorage.getItem("customerDetails")) {
+                localStorage.removeItem("customerDetails");
+            }
+            localStorage.setItem("customerDetails", JSON.stringify(registerCustomer.payload));
             navigate('/customer/home');
         } else {
             alert("Error while registering user");
@@ -64,51 +69,84 @@ const CustomerRegistration = () => {
         }
     }
     return (
-        <div className="container">
-            <Form>
-                <Form.Group className="mb-3">
-                    <Form.Label>Email address</Form.Label>
-                    <Form.Control type="email" placeholder="Email" onChange={(event) => {
-                        handleFieldOnChange('emailId', event.target.value);
-                    }}/>
+        <div className="Auth-form-container">
 
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control type="password" placeholder="Password" onChange={(event) => {
-                        handleFieldOnChange('password', event.target.value);
-                    }}/>
-                </Form.Group>
+            <div className="Auth-form">
+                <div className="Auth-form-content">
+                    <div className="mb-3">
+                        <h3 className="Auth-form-title">Sign Up</h3>
+                        <div className="form-group mt-2">
+                            <label>Email address</label>
+                            <input
+                                className="form-control mt-1"
+                                placeholder="Email" onChange={(event) => {
+                                handleFieldOnChange('emailId', event.target.value);
+                            }}/>
+                        </div>
+                        <div className="form-group mt-2">
+                            <label>Password</label>
+                            <input
+                                className="form-control mt-1" type="password"
+                                placeholder="password" onChange={(event) => {
+                                handleFieldOnChange('password', event.target.value);
+                            }}/>
+                        </div>
 
-                <Form.Group className="mb-3">
-                    <Form.Label>First Name</Form.Label>
-                    <Form.Control type="text" placeholder="First Name" onChange={(event) => {
-                        handleFieldOnChange('firstName', event.target.value);
-                    }}/>
-                    <Form.Label>Last Name</Form.Label>
-                    <Form.Control type="text" placeholder="Last Name" onChange={(event) => {
-                        handleFieldOnChange('lastName', event.target.value);
-                    }}/>
-                    <Form.Label>Street</Form.Label>
-                    <Form.Control type="text" placeholder="Street" onChange={(event) => {
-                        handleFieldOnChange('street', event.target.value);
-                    }}/>
-                    <Form.Label>State</Form.Label>
-                    <Form.Control type="text" placeholder="State" onChange={(event) => {
-                        handleFieldOnChange('state', event.target.value);
-                    }}/>
-                    <Form.Label>ZipCode</Form.Label>
-                    <Form.Control type="number" placeholder="ZipCode" onChange={(event) => {
-                        handleFieldOnChange('zipCode', event.target.value);
-                    }}/>
-                    <Form.Label>Contact Number</Form.Label>
-                    <Form.Control type="number" placeholder="Contact Number" onChange={(event) => {
-                        handleFieldOnChange('contactNumber', event.target.value);
-                    }}/>
-                </Form.Group>
 
-                <Button variant="primary" onClick={handlerCustomerRegistration}>
-                    Submit
-                </Button>
-            </Form>
+                        <div className="form-group mt-2">
+                            <label>First Name</label>
+                            <input
+                                className="form-control mt-1" placeholder="First Name" onChange={(event) => {
+                                handleFieldOnChange('firstName', event.target.value);
+                            }}/>
+                        </div>
+                        <div className="form-group mt-2">
+                        <label>Last Name</label>
+                        <input
+                            className="form-control mt-1" placeholder="Last Name" onChange={(event) => {
+                            handleFieldOnChange('lastName', event.target.value);
+                        }}/>
+                        </div>
+                        <div className="form-group mt-2">
+                        <label>Street</label>
+                        <input
+                            className="form-control mt-1" placeholder="Street" onChange={(event) => {
+                            handleFieldOnChange('street', event.target.value);
+                        }}/>
+                        </div>
+                        <div className="form-group mt-2">
+                        <label>State</label>
+                        <input
+                            className="form-control mt-1" placeholder="State" onChange={(event) => {
+                            handleFieldOnChange('state', event.target.value);
+                        }}/>
+                        </div>
+                        <div className="form-group mt-2">
+                        <label>ZipCode</label>
+                        <input
+                            className="form-control mt-1" type="number" placeholder="ZipCode" onChange={(event) => {
+                            handleFieldOnChange('zipCode', event.target.value);
+                        }}/>
+                        </div>
+                        <div className="form-group mt-2">
+                        <label>Contact Number</label>
+                        <input
+                            className="form-control mt-1" type="number" placeholder="Contact Number"
+                            onChange={(event) => {
+                                handleFieldOnChange('contactNumber', event.target.value);
+                            }}/>
+                        </div>
+
+                        <div className="d-grid gap-2 mt-4">
+                            <button
+                                type="submit"
+                                className="btn btn-primary" onClick={handlerCustomerRegistration}>
+                                Submit
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }

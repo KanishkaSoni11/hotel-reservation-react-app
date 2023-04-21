@@ -1,5 +1,10 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
-import {getStaffById,loginStaff,roomsUnassigned} from "./staff-service";
+import {
+    getStaffById,
+    loginStaff,
+    getRoomsUnassigned,
+    getStaffDetailsFromLocalStorage
+} from "./staff-service";
 
 export const getStaffByIdThunk = createAsyncThunk(
     'getStaffById',
@@ -13,5 +18,10 @@ export const loginStaffThunk = createAsyncThunk(
 
 export const roomsUnassignedThunk = createAsyncThunk(
     'roomsUnassigned',
-    async (staff) => await roomsUnassigned()
+    async (staff) => await getRoomsUnassigned()
+)
+
+export const getStaffDetailsFromLocalStorageThunk = createAsyncThunk(
+    'getStaffDetailsFromLocalStorageThunk',
+    async(staff) => await getStaffDetailsFromLocalStorage(staff)
 )

@@ -39,3 +39,32 @@ export const getReservationFromCustomerId = async(customerId) => {
     console.log(response.data)
     return response.data
 }
+
+export const checkoutCustomer = async (customerId, reservationNumber) => {
+    const response = await api.post(`${API_BASE}/api/customer/checkout/${customerId}/${reservationNumber}`);
+    return response.data
+
+}
+
+export const getCustomerFromLocalStorage = (customerDetails) => {
+    return customerDetails;
+}
+
+export const logoutResetStates = () => {
+    return null;
+}
+
+export const getBillDetails = async  (roomNumber) => {
+    const response = await api.get(`${API_BASE}/api/customer/getBillDetails/${roomNumber}`);
+    return response.data
+}
+
+export const getTotalBill = async  (roomNumber) => {
+    const response = await api.get(`${API_BASE}/api/customer/totalAmount/${roomNumber}`);
+    return response.data
+}
+
+export const updateBillPaid = async  (roomNumber, customerId) => {
+    const response = await api.get(`${API_BASE}/api/customer/billPaid/${roomNumber}/${customerId}`);
+    return response.data
+}
